@@ -1,6 +1,6 @@
 {
   "name": "obsidian-memo-plugin",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Mobile-friendly Obsidian plugin that appends today's date to a note.",
   "main": "main.js",
   "private": true,

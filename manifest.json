@@ -1,9 +1,9 @@
 {
   "id": "memo-plugin",
   "name": "Memo Plugin",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "minAppVersion": "1.4.0",
-  "description": "Append today's date as a line to the end of the current note.",
+  "description": "After 4+ hours away across midnight, close the old daily note and open today's.",
   "author": "ryosunessy",
   "isDesktopOnly": false
 }

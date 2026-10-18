@@ -2,7 +2,10 @@
 
 Mobile-compatible Obsidian plugin (`isDesktopOnly: false`). Uses only the Obsidian API (no Node.js modules).
 
-Command palette → **Append today's date to end of note** adds a `YYYY-MM-DD` line at the end of the current note.
+When you come back to Obsidian after **4+ hours of inactivity and the date has changed**, the previous day's daily note is closed and today's daily note is opened (created if missing).
+
+- Uses the core Daily Notes settings (folder, date format, template) when available; otherwise `YYYY-MM-DD` in the vault root.
+- Command palette → **Open today's daily note** opens/creates today's note manually.
 
 ## Development
 
@@ -17,7 +20,7 @@ npm run build   # type-check + production bundle
 Bump `version` in `manifest.json` (and `versions.json`), commit, then:
 
 ```
-git tag 1.0.0 && git push origin 1.0.0
+git tag 1.1.0 && git push origin 1.1.0
 ```
 
 GitHub Actions builds and attaches `main.js`, `manifest.json`, `styles.css` to the release.
