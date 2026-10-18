@@ -1,0 +1,20 @@
+{
+  "name": "obsidian-memo-plugin",
+  "version": "1.0.0",
+  "description": "Mobile-friendly Obsidian plugin that appends today's date to a note.",
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "builtin-modules": "^4.0.0",
+    "esbuild": "^0.24.0",
+    "obsidian": "latest",
+    "tslib": "^2.6.3",
+    "typescript": "^5.5.0"
+  }
+}

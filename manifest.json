@@ -1,0 +1,9 @@
+{
+  "id": "memo-plugin",
+  "name": "Memo Plugin",
+  "version": "1.0.0",
+  "minAppVersion": "1.4.0",
+  "description": "Append today's date as a line to the end of the current note.",
+  "author": "ryosunessy",
+  "isDesktopOnly": false
+}
