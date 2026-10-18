@@ -1,9 +1,15 @@
 name: Release
 
+# Runs when a version tag is pushed, or when the default branch is pushed
+# (creates the release for manifest.json's version if it does not exist yet).
 on:
   push:
     tags:
       - "*"
+    branches:
+      - main
+      - claude/obsidian-mobile-plugin-base
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -18,22 +24,35 @@ jobs:
         with:
           node-version: 20
 
-      - name: Check tag matches manifest version
-        run: |
-          v=$(node -p "require('./manifest.json').version")
-          if [ "$v" != "${GITHUB_REF_NAME}" ]; then
-            echo "Tag ${GITHUB_REF_NAME} does not match manifest.json version $v"
-            exit 1
-          fi
-
-      - run: npm install
-      - run: npm run build
-
-      - name: Create release
+      - name: Decide version
+        id: ver
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create "${GITHUB_REF_NAME}" \
-            --title "${GITHUB_REF_NAME}" \
+          v=$(node -p "require('./manifest.json').version")
+          if [ "${GITHUB_REF_TYPE}" = "tag" ] && [ "$v" != "${GITHUB_REF_NAME}" ]; then
+            echo "Tag ${GITHUB_REF_NAME} does not match manifest.json version $v"
+            exit 1
+          fi
+          if [ "${GITHUB_REF_TYPE}" != "tag" ] && gh release view "$v" >/dev/null 2>&1; then
+            echo "Release $v already exists; nothing to do."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
+          echo "version=$v" >> "$GITHUB_OUTPUT"
+
+      - if: steps.ver.outputs.skip != 'true'
+        run: npm install
+
+      - if: steps.ver.outputs.skip != 'true'
+        run: npm run build
+
+      - name: Create release
+        if: steps.ver.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ steps.ver.outputs.version }}" \
+            --target "${GITHUB_SHA}" \
+            --title "${{ steps.ver.outputs.version }}" \
             --generate-notes \
             main.js manifest.json styles.css
